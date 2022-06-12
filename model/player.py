@@ -10,3 +10,6 @@ class Player:
     birthday: str
     gender: Gender
     position: int
+
+    def get_name(self) -> str:
+        return "%s %s" % (self.first_name, self.last_name)

@@ -1,5 +1,5 @@
 from datetime import datetime
-from controller.playerspeers import PlayerPeers
+from controller.playerpeers import PlayerPeers
 from controller.tournamentsmanager import TournamentManager
 from model.player import Player
 from model.round import Round
@@ -11,8 +11,11 @@ from view.dashboard import Dashboard
 
 
 def main():
-    tm = TournamentManager()
-    tm.show_dashboard()
+    try:
+        tm = TournamentManager()
+        tm.show_dashboard()
+    except KeyboardInterrupt:
+        pass
 
 
 if __name__ == "__main__":

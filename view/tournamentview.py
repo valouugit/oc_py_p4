@@ -69,6 +69,7 @@ class TournamentView:
 
         table.add_row("0", "Retour")
         table.add_row("1", "Ajouter un joueur")
+        table.add_row("2", "Ajouter un tour")
 
         return table
 
@@ -125,7 +126,7 @@ class TournamentView:
         index = 1
         for round in self.tournament.rounds:
             table.add_row(
-                index,
+                str(index),
                 round.name,
                 round.date_start.strftime("%d/%m/%Y"),
                 round.date_end.strftime("%d/%m/%Y"),

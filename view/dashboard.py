@@ -54,7 +54,6 @@ class Dashboard:
         table.add_column(
             "Nombre de rounds", justify="right", style="cyan", no_wrap=True
         )
-        table.add_column("Joueurs", justify="right", style="cyan", no_wrap=True)
         table.add_column("Type de timer", justify="right", style="cyan", no_wrap=True)
         table.add_column("Description", justify="right", style="cyan", no_wrap=True)
         table.add_column("Nombre de round", justify="right", style="cyan", no_wrap=True)
@@ -73,7 +72,6 @@ class Dashboard:
                 tournament.location,
                 tournament.date.strftime("%d/%m/%Y"),
                 str(len(tournament.rounds)),
-                ", ".join(tournament.players),
                 tournament.timer.name,
                 tournament.description,
                 str(tournament.rounds_number),

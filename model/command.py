@@ -7,3 +7,5 @@ class Command(Enum):
     TOURNAMENT_ADD = auto()
     TOURNAMENT_VIEW = auto()
     PLAYER_ADD = auto()
+    ROUND_ADD = auto()
+    ROUND_VIEW = auto()
