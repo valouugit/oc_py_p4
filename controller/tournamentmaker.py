@@ -1,6 +1,7 @@
 from datetime import datetime
 from rich.console import Console
 import rich.prompt as Prompt
+from controller.playermaker import PlayerMaker
 
 from controller.roundmaker import RoundMaker
 from model.command import Command
@@ -46,26 +47,8 @@ class TournamentMaker:
                 round_maker.show_round()
 
     def _add_player(self):
-        genre_display = {Gender.MAN: "Homme", Gender.WOMAN: "Femme"}
-        p_first_name = Prompt.Prompt.ask("Prénom du joueur")
-        p_last_name = Prompt.Prompt.ask("Nom du joueur")
-        p_birthday = Prompt.Prompt.ask("Date d'anniversaire (DD/MM/AAAA)")
-        p_gender = Prompt.Prompt.ask(
-            "Genre", choices=[genre_display[Gender.MAN], genre_display[Gender.WOMAN]]
-        )
-        p_position = Prompt.IntPrompt.ask("Position")
-
-        self.tournament.players.append(
-            Player(
-                first_name=p_first_name,
-                last_name=p_last_name,
-                birthday=datetime.strptime(p_birthday, "%d/%m/%Y"),
-                gender=list(genre_display.keys())[
-                    list(genre_display.values()).index(p_gender)
-                ],
-                position=p_position,
-            )
-        )
+        player_maker = PlayerMaker()
+        self.tournament.players.append(player_maker.add_player())
 
     def _add_round(self) -> Round | None:
         if len(self.tournament.rounds) >= self.tournament.rounds_number:
