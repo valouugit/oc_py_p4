@@ -181,7 +181,7 @@ class TournamentView:
             "Position", justify="right", style="cyan", ratio=5
         )
 
-        if len(self.tournament.players) == 0:
+        if len(players) == 0:
             table.add_row("Vide", "Vide", "Vide", "Vide")
             return table
 

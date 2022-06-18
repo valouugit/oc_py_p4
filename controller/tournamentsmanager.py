@@ -41,6 +41,7 @@ class TournamentManager:
                 player = self.player_maker.add_player()
                 self.players.append(player)
                 self.player_maker.save_player(player)
+                self._load_player()
 
     def _add_tournament(self):
         t_name = Prompt.Prompt.ask(
@@ -89,7 +90,6 @@ class TournamentManager:
 
     def _load_player(self):
         self.players = self.player_maker.load_user()
-        print(self.players)
 
     def load_tournaments(self):
         tournament_db = TournamentDb()
