@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+from dataclasses_json import dataclass_json
 from datetime import datetime
 
 from typing import List
@@ -7,6 +8,7 @@ from .player import Player
 from .timer import Timer
 
 
+@dataclass_json
 @dataclass
 class Tournament:
     name: str
