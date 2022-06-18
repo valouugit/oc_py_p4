@@ -118,9 +118,12 @@ class Dashboard:
             return table
 
         genre_display = {Gender.MAN: "Homme", Gender.WOMAN: "Femme"}
-
+        sorted_players = sorted(
+            self.players,
+            key=lambda p: p.position
+        )
         index = 1
-        for player in self.players:
+        for player in sorted_players:
             table.add_row(
                 "%s %s" % (player.last_name, player.first_name),
                 player.birthday.strftime("%d/%m/%Y"),

@@ -93,6 +93,7 @@ class TournamentView:
         table.add_row("4", "Voir un round")
         table.add_row("5", "Sauvegarder le tournois")
         table.add_row("6", "Changer les positions")
+        table.add_row("7", "Voir les matchs")
 
         return table
 
@@ -115,9 +116,12 @@ class TournamentView:
             return table
 
         genre_display = {Gender.MAN: "Homme", Gender.WOMAN: "Femme"}
-
+        sorted_players = sorted(
+            self.tournament.players,
+            key=lambda p: p.position
+        )
         index = 1
-        for player in self.tournament.players:
+        for player in sorted_players:
             if type(player.birthday) is float:
                 b = datetime.fromtimestamp(
                         player.birthday

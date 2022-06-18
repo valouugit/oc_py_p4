@@ -9,7 +9,7 @@ class PlayerPeers:
         self.tournament = tournament
         self.offset = 0
 
-    def _gen_peers_with_wosition(self) -> List[tuple]:
+    def _gen_peers_with_position(self) -> List[tuple]:
         peers = []
         sorted_players = sorted(
             self.tournament.players,
@@ -84,6 +84,6 @@ class PlayerPeers:
     def getNextPeers(self) -> List[tuple]:
         self.offset += 1
         if self.offset == 1:
-            return self._gen_peers_with_wosition()
+            return self._gen_peers_with_position()
         else:
             return self._gen_peers_with_score()

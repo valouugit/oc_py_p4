@@ -12,3 +12,4 @@ class Command(Enum):
     ROUND_ADD = auto()
     ROUND_VIEW = auto()
     POSITION_CHANGE = auto()
+    MATCH_VIEW = auto()

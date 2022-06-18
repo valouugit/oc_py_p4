@@ -10,6 +10,7 @@ from model.command import Command
 from model.player import Player
 from model.round import Round
 from model.tournament import Tournament
+from view.matchview import MatchView
 from view.roundview import RoundView
 from view.tournamentview import TournamentView
 from controller.playerpeers import PlayerPeers
@@ -67,6 +68,13 @@ class TournamentMaker:
                         % (p.get_name(), p.position)
                     )
                     p.position = position
+            elif self.command is Command.MATCH_VIEW:
+                match_viewer = MatchView(
+                    self.console,
+                    self.tournament
+                )
+                match_viewer.show()
+                Prompt.Prompt.ask("Appuyer sur entrée pour continuer")
 
     def _add_player(self):
         player_maker = PlayerMaker()
@@ -110,5 +118,7 @@ class TournamentMaker:
             self.command = Command.TOURNAMENT_SAVE
         elif command == 6:
             self.command = Command.POSITION_CHANGE
+        elif command == 7:
+            self.command = Command.MATCH_VIEW
         else:
             return Command.NO_COMMAND
