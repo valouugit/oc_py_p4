@@ -46,7 +46,7 @@ class MatchView:
                 else:
                     winner = "%s %s" % (
                         match[0][0].get_name(),
-                        match[0][0].get_name()
+                        match[1][0].get_name()
                     )
                     loser = ""
 

@@ -19,7 +19,7 @@ class TournamentView:
         self.tournament = tournament
         self.console = console
 
-    def show(self):
+    def show(self, sort_alpha = False):
         layout = Layout()
         layout.split_column(
             Layout(name="margin", size=3),
@@ -27,14 +27,14 @@ class TournamentView:
             Layout(name="tournaments", ratio=6),
         )
         layout["tournaments"].split_row(
-            Layout(name="commands"),
-            Layout(name="players"),
-            Layout(name="rounds")
+            Layout(name="commands", ratio=1),
+            Layout(name="players", ratio=2),
+            Layout(name="rounds", ratio=2)
         )
         layout["margin"].update(Text())
         layout["header"].update(self._get_header())
         layout["commands"].update(self._get_commands())
-        layout["players"].update(self._get_players())
+        layout["players"].update(self._get_players(sort_alpha))
         layout["rounds"].update(self._get_rounds())
 
         self.console.print(layout)
@@ -94,10 +94,11 @@ class TournamentView:
         table.add_row("5", "Sauvegarder le tournois")
         table.add_row("6", "Changer les positions")
         table.add_row("7", "Voir les matchs")
+        table.add_row("8", "Changer le trie")
 
         return table
 
-    def _get_players(self) -> Table:
+    def _get_players(self, sort_alpha) -> Table:
         table = Table(
             title="Joueurs",
             expand=True,
@@ -116,10 +117,16 @@ class TournamentView:
             return table
 
         genre_display = {Gender.MAN: "Homme", Gender.WOMAN: "Femme"}
-        sorted_players = sorted(
-            self.tournament.players,
-            key=lambda p: p.position
-        )
+        if sort_alpha:
+            sorted_players = sorted(
+                self.tournament.players,
+                key=lambda p: p.get_name()
+            )
+        else:
+            sorted_players = sorted(
+                self.tournament.players,
+                key=lambda p: p.position
+            )
         index = 1
         for player in sorted_players:
             if type(player.birthday) is float:

@@ -27,9 +27,10 @@ class TournamentMaker:
         self.parent_players = players
 
     def show_tournament(self):
+        sort_alpha = False
         while True:
             tournament_view = TournamentView(self.console, self.tournament)
-            tournament_view.show()
+            tournament_view.show(sort_alpha)
             while self._ask_command() == Command.NO_COMMAND:
                 continue
             if self.command is Command.BACK:
@@ -75,6 +76,8 @@ class TournamentMaker:
                 )
                 match_viewer.show()
                 Prompt.Prompt.ask("Appuyer sur entrée pour continuer")
+            elif self.command is Command.CHANGE_SORT:
+                sort_alpha = not sort_alpha
 
     def _add_player(self):
         player_maker = PlayerMaker()
@@ -120,5 +123,7 @@ class TournamentMaker:
             self.command = Command.POSITION_CHANGE
         elif command == 7:
             self.command = Command.MATCH_VIEW
+        elif command == 8:
+            self.command = Command.CHANGE_SORT
         else:
             return Command.NO_COMMAND
