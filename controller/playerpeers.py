@@ -9,9 +9,12 @@ class PlayerPeers:
         self.tournament = tournament
         self.offset = 0
 
-    def _genPeersWithPosition(self) -> List[tuple]:
+    def _gen_peers_with_wosition(self) -> List[tuple]:
         peers = []
-        sorted_players = sorted(self.tournament.players, key=lambda p: p.position)
+        sorted_players = sorted(
+            self.tournament.players,
+            key=lambda p: p.position
+        )
         for peer in range(0, int(len(sorted_players) / 2)):
             peers.append(
                 (
@@ -21,17 +24,17 @@ class PlayerPeers:
             )
         return peers
 
-    def _genPeersWithScore(self) -> List[tuple]:
+    def _gen_peers_with_score(self) -> List[tuple]:
         sorted_players = []
         for player in self.tournament.players:
-            sorted_players.append([player, self._getPlayerScore(player)])
+            sorted_players.append([player, self._get_player_score(player)])
         sorted_players.sort(key=lambda p: p[1], reverse=True)
-        self._sortByPositionScoreEqual(sorted_players)
+        self._sort_by_position_score_equal(sorted_players)
         peers = []
         for i in range(0, int(len(sorted_players) / 2)):
             p2_index = 1
             while True:
-                if self._checkPlayersAlreadyPlay(
+                if self._check_players_already_play(
                     sorted_players[0][0], sorted_players[p2_index][0]
                 ):
                     p2_index += 1
@@ -45,7 +48,7 @@ class PlayerPeers:
             sorted_players.remove(sorted_players[0])
         return peers
 
-    def _getPlayerScore(self, player: Player) -> int:
+    def _get_player_score(self, player: Player) -> int:
         score = 0
         for round in self.tournament.rounds:
             for match in round.match:
@@ -54,7 +57,7 @@ class PlayerPeers:
                         score += m_score
         return score
 
-    def _sortByPositionScoreEqual(self, players: List):
+    def _sort_by_position_score_equal(self, players: List):
         finish = False
         while not finish:
             finish = True
@@ -70,7 +73,7 @@ class PlayerPeers:
                         finish = False
                         break
 
-    def _checkPlayersAlreadyPlay(self, player1: Player, player2: Player) -> bool:
+    def _check_players_already_play(self, player1: Player, player2: Player):
         for round in self.tournament.rounds:
             for match in round.match:
                 if match[0][0] == player1 or match[0][0] == player2:
@@ -81,6 +84,6 @@ class PlayerPeers:
     def getNextPeers(self) -> List[tuple]:
         self.offset += 1
         if self.offset == 1:
-            return self._genPeersWithPosition()
+            return self._gen_peers_with_wosition()
         else:
-            return self._genPeersWithScore()
+            return self._gen_peers_with_score()

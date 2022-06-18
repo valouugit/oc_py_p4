@@ -1,5 +1,7 @@
 from datetime import datetime
 from rich.console import Console
+from controller.playermaker import PlayerMaker
+from controller.tournamentdb import TournamentDb
 from controller.tournamentmaker import TournamentMaker
 from model.command import Command
 import rich.prompt as Prompt
@@ -14,10 +16,14 @@ class TournamentManager:
         self.console = Console()
         self.tournaments = []
         self.command = None
+        self.players = []
+        self.player_maker = PlayerMaker()
 
     def show_dashboard(self):
+        self._load_player()
+        self.load_tournaments()
         while True:
-            menu = Dashboard(self.console, self.tournaments)
+            menu = Dashboard(self.console, self.tournaments, self.players)
             menu.show()
             while self._ask_command() == Command.NO_COMMAND:
                 continue
@@ -26,12 +32,21 @@ class TournamentManager:
             elif self.command is Command.TOURNAMENT_VIEW:
                 tournament_index = Prompt.IntPrompt.ask("Numéro du tournois")
                 tournament_maker = TournamentMaker(
-                    self.console, self.tournaments[tournament_index - 1]
+                    self.console, self.tournaments[tournament_index - 1],
+                    self.players
                 )
                 tournament_maker.show_tournament()
+            elif self.command is Command.PLAYER_ADD:
+                self.player_maker = PlayerMaker()
+                player = self.player_maker.add_player()
+                self.players.append(player)
+                self.player_maker.save_player(player)
 
     def _add_tournament(self):
-        t_name = Prompt.Prompt.ask(prompt="Nom du tournois", default="Tournois")
+        t_name = Prompt.Prompt.ask(
+            prompt="Nom du tournois",
+            default="Tournois"
+        )
         t_description = Prompt.Prompt.ask(prompt="Description du tournois")
         t_location = Prompt.Prompt.ask(prompt="Lieu du tournois")
         t_date = Prompt.Prompt.ask(
@@ -67,5 +82,15 @@ class TournamentManager:
             self.command = Command.TOURNAMENT_ADD
         elif command == 2:
             self.command = Command.TOURNAMENT_VIEW
+        elif command == 3:
+            self.command = Command.PLAYER_ADD
         else:
             return Command.NO_COMMAND
+
+    def _load_player(self):
+        self.players = self.player_maker.load_user()
+        print(self.players)
+
+    def load_tournaments(self):
+        tournament_db = TournamentDb()
+        self.tournaments = tournament_db.load_tournament()

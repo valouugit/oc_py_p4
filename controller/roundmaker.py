@@ -1,6 +1,4 @@
 from rich.console import Console
-from rich.table import Table
-from model.command import Command
 import rich.prompt as Prompt
 
 from model.round import Round
@@ -20,12 +18,8 @@ class RoundMaker:
         self.console = console
         self.tournament = tournament
         self.round = round
-        command = None
+        self.command = None
         self.player_peers = player_peers
-
-    def show_round(self):
-        while True:
-            pass
 
     def make_round(self):
         peers = self.player_peers.getNextPeers()
@@ -35,7 +29,6 @@ class RoundMaker:
         round_view.show()
         index = 0
         for peer in peers:
-            print(peer)
             winner = Prompt.IntPrompt.ask(
                 "Qui de %s (1) ou %s (2) à gagné? (0 si nul)"
                 % (peer[0].get_name(), peer[1].get_name()),
